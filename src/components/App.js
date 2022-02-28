@@ -14,6 +14,8 @@ const App = () => {
   const [searchInputValue, setSearchInputValue] = useState("");
   const [extensionValue, setExtensionValue] = useState("all");
 
+
+
   useEffect(() => {
     axios({
       method: 'get',
@@ -48,7 +50,7 @@ const App = () => {
   return (
     <div className="app">
       <header className="header">
-        <img className="header__logo" src={logo} />
+        <img onClick={() => window.location.reload(false)} className="header__logo" src={logo} />
         <h1 className="header__title">La référence pour collectionner vos montures sur Final Fantasy XIV</h1>
       </header>
 
