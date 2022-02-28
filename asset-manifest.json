@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/FFXIV-mounts/static/css/main.9399b22a.css",
-    "main.js": "/FFXIV-mounts/static/js/main.acec746d.js",
+    "main.css": "/FFXIV-mounts/static/css/main.ffd3114f.css",
+    "main.js": "/FFXIV-mounts/static/js/main.4c422bfb.js",
     "static/media/logo.png": "/FFXIV-mounts/static/media/logo.2faec6fb48d1b480e31b.png",
     "index.html": "/FFXIV-mounts/index.html",
-    "main.9399b22a.css.map": "/FFXIV-mounts/static/css/main.9399b22a.css.map",
-    "main.acec746d.js.map": "/FFXIV-mounts/static/js/main.acec746d.js.map"
+    "main.ffd3114f.css.map": "/FFXIV-mounts/static/css/main.ffd3114f.css.map",
+    "main.4c422bfb.js.map": "/FFXIV-mounts/static/js/main.4c422bfb.js.map"
   },
   "entrypoints": [
-    "static/css/main.9399b22a.css",
-    "static/js/main.acec746d.js"
+    "static/css/main.ffd3114f.css",
+    "static/js/main.4c422bfb.js"
   ]
 }
