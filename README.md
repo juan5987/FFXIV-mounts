@@ -1,2 +1,10 @@
 # FFXIV-mounts
-Un site qui liste les montures disponibles dans FFXIV
+FFXIV-mounts est une application qui liste les montures disponibles dans le MMORPG Final Fantasy XIV. L'application utilise l'API disponible à l'adresse suivante: https://xivapi.com/. 
+
+L'API récupère directement les données du jeu. Les données de l'application sont donc actualisées automatiquement lorsque l'API est mise à jour.
+
+## Stack technique
+
+- React
+- Axios
+- SASS
