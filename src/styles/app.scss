@@ -1,0 +1,116 @@
+@use './vars';
+
+.app{
+    font-family: 'VT323', monospace;
+    background-color: vars.$color-extralight;
+    min-height: 100vh;
+}
+
+
+// HEADER
+.header{
+    padding: 1rem 0 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: vars.$color-primary;
+
+    &__logo{
+        max-width: 250px;
+        display: block;
+        margin-bottom: 1rem;
+    }
+
+    &__title{
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+// SEARCHBAR
+.searchBar{
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+
+    &__form{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        &__container{
+            width: 300px;
+
+            &:first-child{
+                margin-right: 1rem;
+            }
+
+            &__title{
+                padding-left: 0.1rem;
+                margin-bottom: 0.1rem;
+                font-size: 1.2rem;
+                text-align: center;
+            }
+
+            &__textInput{
+                padding: 0.6rem 1rem;
+                font-size: 1.5rem;
+                width: 100%;
+            }
+
+            &__select{
+                padding: 0.6rem 1rem;
+                font-size: 1.5rem;
+                width: 100%;
+
+                &:hover{
+                    cursor: pointer;
+                }
+
+                &__option{
+                    padding: 0.6rem 1rem;
+                    font-size: 1.5rem;
+                    text-align: left;
+
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MAIN
+.main{
+    display: flex;
+    justify-content: center;
+}
+
+//MOUNTS
+.mounts{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+
+    &__noResult{
+        color: red;
+        font-size: 2rem;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media all and (max-width: 650px){
+    .searchBar__form{
+        flex-direction: column;
+    }
+
+    .searchBar__form__container:first-child{
+        margin-right: 0;
+    }
+}

@@ -1,0 +1,33 @@
+header{
+    background-color: black;
+}
+
+.header{
+    background-color: black;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.header__item{
+    width: 33%;
+    display: flex;
+    justify-content: center;
+}
+
+.header__logo__img{
+    max-height: 50px;
+}
+
+.header__searchbar__input{
+    width: 100%;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+}
+
+.header__closedMenu__img{
+    max-height: 50px;
+}
