@@ -19,8 +19,8 @@
           id="mount-search"
           type="search"
           placeholder="Nom de la monture"
-          [value]="store.state().filter.query"
-          (input)="store.setQuery(queryInput.value)"
+          [value]="facade.state().filter.query"
+          (input)="facade.setQuery(queryInput.value)"
         >
       </div>
 
@@ -29,31 +29,31 @@
         <select
           #expansionSelect
           id="expansion-select"
-          [value]="store.state().filter.expansionId ?? 'all'"
+          [value]="facade.state().filter.expansionId ?? 'all'"
           (change)="onExpansionChange(expansionSelect.value)"
         >
           <option value="all">Toutes les extensions</option>
-          @for (option of store.expansionOptions(); track option.value) {
+          @for (option of facade.expansionOptions(); track option.value) {
             <option [value]="option.value">{{ option.label }}</option>
           }
         </select>
       </div>
     </form>
 
-    @switch (store.state().status) {
+    @switch (facade.state().status) {
       @case ('loading') {
         <p class="catalog__status" role="status">Chargement des montures…</p>
       }
       @case ('error') {
         <section class="catalog__status" role="alert">
-          <p>{{ store.state().errorMessage }}</p>
-          <button type="button" (click)="store.retry()">Réessayer</button>
+          <p>Le catalogue est indisponible pour le moment.</p>
+          <button type="button" (click)="facade.retry()">Réessayer</button>
         </section>
       }
       @case ('success') {
-        @if (store.filteredMounts().length > 0) {
+        @if (facade.filteredMounts().length > 0) {
           <section class="catalog__grid" aria-label="Montures">
-            @for (mount of store.filteredMounts(); track mount.id) {
+            @for (mount of facade.filteredMounts(); track mount.id) {
               <app-mount-card [mount]="mount" />
             }
           </section>

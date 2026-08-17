@@ -1,4 +1,4 @@
-import { Mount } from '../domain/mount.model';
+import { Mount } from '@domain/mounts/mount.model';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -13,12 +13,7 @@ function readNonEmptyString(record: JsonRecord, key: string): string | null {
 
 function readExpansionId(record: JsonRecord): string | null {
   const gamePatch = record['GamePatch'];
-
-  if (!isRecord(gamePatch)) {
-    return null;
-  }
-
-  return readNonEmptyString(gamePatch, 'ExName');
+  return isRecord(gamePatch) ? readNonEmptyString(gamePatch, 'ExName') : null;
 }
 
 function mapMount(value: unknown, apiBaseUrl: string): Mount | null {

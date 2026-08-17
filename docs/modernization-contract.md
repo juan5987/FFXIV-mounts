@@ -37,7 +37,7 @@ dans l'adaptateur de données, sans jamais être exposée aux composants UI.
 - Les identifiants et URLs de l'API sont publics ; aucun secret ne doit être
   ajouté aux environnements du client.
 - Une migration ultérieure vers XIVAPI v2 reste possible derrière
-  `MountsGateway`.
+`MountRepository`.
 
 ## TODO — évolution XIVAPI v2
 

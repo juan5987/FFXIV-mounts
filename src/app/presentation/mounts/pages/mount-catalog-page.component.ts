@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
-import { ExpansionId } from '../domain/mount.model';
-import { MountCatalogStore } from '../state/mount-catalog.store';
-import { MountCardComponent } from '../ui/mount-card.component';
+import { MountCatalogFacade } from '@application/mounts/mount-catalog.facade';
+import { ExpansionId } from '@domain/mounts/mount.model';
+
+import { MountCardComponent } from '../components/mount-card.component';
 
 @Component({
   selector: 'app-mount-catalog-page',
@@ -12,13 +13,13 @@ import { MountCardComponent } from '../ui/mount-card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MountCatalogPageComponent implements OnInit {
-  readonly store = inject(MountCatalogStore);
+  readonly facade = inject(MountCatalogFacade);
 
   ngOnInit(): void {
-    this.store.load();
+    void this.facade.load();
   }
 
   onExpansionChange(value: string): void {
-    this.store.setExpansion(value === 'all' ? null : value as ExpansionId);
+    this.facade.setExpansion(value === 'all' ? null : value as ExpansionId);
   }
 }

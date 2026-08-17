@@ -3,32 +3,29 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
-import { APP_CONFIG, AppConfig } from '../../../core/config/app-config';
-import { XivApiMountsService } from './xivapi-mounts.service';
+import { AppConfig, APP_CONFIG } from '@infrastructure/config/app-config';
+
+import { XivApiMountRepository } from './xivapi-mount.repository';
 
 const TEST_CONFIG: AppConfig = {
   production: false,
   xivApiBaseUrl: 'https://xivapi.example.test',
 };
 
-describe('XivApiMountsService', () => {
-  it('requests the constrained public endpoint and maps its response', () => {
+describe('XivApiMountRepository', () => {
+  it('requests the constrained public endpoint and maps its response', async () => {
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        XivApiMountsService,
+        XivApiMountRepository,
         { provide: APP_CONFIG, useValue: TEST_CONFIG },
       ],
     });
 
-    const service = TestBed.inject(XivApiMountsService);
+    const repository = TestBed.inject(XivApiMountRepository);
     const httpController = TestBed.inject(HttpTestingController);
-    let resultCount = 0;
-
-    service.listMounts().subscribe((mounts) => {
-      resultCount = mounts.length;
-    });
+    const pendingMounts = repository.findAll();
 
     const request = httpController.expectOne((candidate) =>
       candidate.url === 'https://xivapi.example.test/mount' &&
@@ -38,7 +35,7 @@ describe('XivApiMountsService', () => {
 
     expect(request.request.method).toBe('GET');
     request.flush({ Results: [] });
-    expect(resultCount).toBe(0);
+    await expect(pendingMounts).resolves.toEqual([]);
     httpController.verify();
   });
 });

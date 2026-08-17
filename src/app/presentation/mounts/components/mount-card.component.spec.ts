@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
-import { Mount } from '../domain/mount.model';
+import { Mount } from '@domain/mounts/mount.model';
+
 import { MountCardComponent } from './mount-card.component';
 
 const MOUNT: Mount = {

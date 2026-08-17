@@ -6,6 +6,56 @@ module.exports = tseslint.config(
     ignores: ['dist/**', 'coverage/**', 'node_modules/**'],
   },
   {
+    files: ['src/app/domain/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            '@angular/*',
+            'rxjs',
+            '@application/*',
+            '@infrastructure/*',
+            '@presentation/*',
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/app/application/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@infrastructure/*', '@presentation/*'],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/app/infrastructure/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@application/*', '@presentation/*'],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/app/presentation/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@infrastructure/*'],
+        },
+      ],
+    },
+  },
+  {
     files: ['**/*.ts'],
     extends: [...tseslint.configs.recommended, ...angular.configs.tsRecommended],
     processor: angular.processInlineTemplates,

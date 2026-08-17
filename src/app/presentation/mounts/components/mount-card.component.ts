@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { Mount } from '../domain/mount.model';
+import { Mount } from '@domain/mounts/mount.model';
 
 @Component({
   selector: 'app-mount-card',

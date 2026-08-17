@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { describe, expect, it } from 'vitest';
 
-import { MOUNTS_GATEWAY, MountsGateway } from '../data-access/mounts.gateway';
-import { Mount } from '../domain/mount.model';
-import { MountCatalogStore } from '../state/mount-catalog.store';
+import { MountCatalogFacade } from '@application/mounts/mount-catalog.facade';
+import { Mount } from '@domain/mounts/mount.model';
+import { MountRepository } from '@domain/mounts/mount.repository';
+
 import { MountCatalogPageComponent } from './mount-catalog-page.component';
 
 const MOUNTS: readonly Mount[] = [
@@ -25,19 +25,21 @@ const MOUNTS: readonly Mount[] = [
 ];
 
 describe('MountCatalogPageComponent', () => {
-  it('loads mounts and applies user search input', async () => {
+  it('renders the facade state and delegates user search', async () => {
     await TestBed.configureTestingModule({
       imports: [MountCatalogPageComponent],
       providers: [
-        MountCatalogStore,
+        MountCatalogFacade,
         {
-          provide: MOUNTS_GATEWAY,
-          useValue: { listMounts: () => of(MOUNTS) } satisfies MountsGateway,
+          provide: MountRepository,
+          useValue: { findAll: () => Promise.resolve(MOUNTS) },
         },
       ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(MountCatalogPageComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelectorAll('app-mount-card')).toHaveLength(2);

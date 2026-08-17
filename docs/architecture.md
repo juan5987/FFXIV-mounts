@@ -3,16 +3,23 @@
 ## Principes
 
 L'application est une SPA Angular standalone, zoneless et strictement typée.
-Le code est organisé par responsabilité et non par type de fichier global :
+Ses couches sont explicites et leurs dépendances vont vers le domaine :
 
 ```text
-core/config        configuration injectée de l'application
-features/mounts    domaine, accès aux données, état, page et composants UI
+domain/mounts             modèles, règles pures et port `MountRepository`
+application/mounts        façade de cas d'usage et état du catalogue
+infrastructure/           configuration et adaptateur HTTP XIVAPI
+presentation/mounts       pages et composants Angular
 ```
 
-Les dépendances vont vers le domaine : l'UI dépend du store, le store dépend du
-port `MountsGateway`, et seul `data-access` connaît XIVAPI. Un composant ne
-fait jamais d'appel HTTP et ne manipule jamais le DTO externe.
+La présentation dépend de l'application et du domaine. L'application dépend
+uniquement du domaine. L'infrastructure implémente le port du domaine et ne
+dépend jamais de la présentation ou de l'application. Seuls `app.config.ts` et
+`app.routes.ts` sont des composition roots autorisés à relier les couches.
+
+Un composant ne fait jamais d'appel HTTP, ne manipule jamais le DTO externe et
+ne contient aucune règle métier. `MountCatalogFacade` reçoit les intentions de
+l'UI et orchestre le chargement, le retry et les filtres.
 
 ## Configuration et sécurité
 
@@ -23,9 +30,9 @@ serveur. Les fichiers `.env*` locaux sont ignorés par Git à l'exception d'un
 
 ## État
 
-`MountCatalogStore` est fourni au niveau de la route lazy. Il conserve les
-données source et les filtres ; le résultat affiché est un `computed` dérivé,
-ce qui interdit l'état dupliqué et les désynchronisations.
+`MountCatalogFacade` conserve les données source et les filtres ; le résultat
+affiché est un `computed` dérivé, ce qui interdit l'état dupliqué et les
+désynchronisations. `filterMounts` reste une règle pure du domaine.
 
 ## Qualité
 
@@ -38,5 +45,5 @@ pour les tests et vérifie les dépendances de production.
 - Passer à Angular 22 quand l'environnement de développement et la CI seront
   sur Node 22.22 ou plus récent ; Angular 22 n'est pas compatible avec le
   Node 20.20 actuellement utilisé par ce projet.
-- Étudier la migration XIVAPI v2 derrière `MountsGateway` après avoir figé un
+- Étudier la migration XIVAPI v2 derrière `MountRepository` après avoir figé un
   nouveau contrat de réponse et d'assets.
