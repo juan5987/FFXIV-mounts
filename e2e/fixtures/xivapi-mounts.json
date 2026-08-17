@@ -1,0 +1,53 @@
+{
+  "Pagination": {
+    "Page": 1,
+    "PageNext": null,
+    "PagePrev": null,
+    "PageTotal": 1,
+    "Results": 4,
+    "ResultsPerPage": 4,
+    "ResultsTotal": 4
+  },
+  "Results": [
+    {
+      "ID": 1,
+      "Name_fr": "Chocobo destrier",
+      "Description_fr": "Votre fidèle compagnon de grande compagnie.",
+      "Icon": "/i/068000/068001.png",
+      "GamePatch": {
+        "ExName": "A Realm Reborn",
+        "Version": "2.0"
+      }
+    },
+    {
+      "ID": 2,
+      "Name_fr": "Faucon flamboyant",
+      "Description_fr": "Une monture venue des cieux.",
+      "Icon": "/i/068000/068100.png",
+      "GamePatch": {
+        "ExName": "Heavensward",
+        "Version": "3.0"
+      }
+    },
+    {
+      "ID": 3,
+      "Name_fr": "Tigre de guerre",
+      "Description_fr": "Un prédateur au pas assuré.",
+      "Icon": "/i/068000/068200.png",
+      "GamePatch": {
+        "ExName": "Stormblood",
+        "Version": "4.0"
+      }
+    },
+    {
+      "ID": 4,
+      "Name_fr": "Monture incomplète",
+      "Description_fr": "",
+      "Icon": "/i/068000/068300.png",
+      "GamePatch": {
+        "ExName": "Endwalker",
+        "Version": "6.0"
+      }
+    }
+  ]
+}
