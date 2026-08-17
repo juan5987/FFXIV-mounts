@@ -9,6 +9,11 @@
   --color-overlay-hero: rgb(5 8 20 / 72%);
   --color-overlay-page-start: rgb(5 8 20 / 92%);
   --color-overlay-page-end: rgb(5 8 20 / 98%);
+  --color-ambient-glow: rgb(95 228 242 / 15%);
+  --color-crystal-glow: rgb(95 228 242 / 14%);
+  --color-card-glow: rgb(95 228 242 / 18%);
+  --color-panel-border-start: rgb(95 228 242 / 55%);
+  --color-panel-border-end: rgb(231 185 90 / 45%);
   --color-text-primary: #{primitive.$color-slate-100};
   --color-text-secondary: #{primitive.$color-slate-300};
   --color-text-muted: #{primitive.$color-slate-500};

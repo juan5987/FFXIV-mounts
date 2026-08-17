@@ -1,14 +1,31 @@
+:host {
+  display: block;
+  block-size: 100%;
+}
+
 .mount-card {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
   gap: var(--card-gap);
+  block-size: 100%;
+  min-block-size: var(--card-min-block-size);
   min-inline-size: 0;
   padding: var(--card-padding);
   border: var(--card-border);
   border-radius: var(--card-radius);
   background: var(--card-background);
   box-shadow: var(--panel-shadow);
+  overflow: hidden;
   transition: border-color var(--transition-slow), box-shadow var(--transition-slow), transform var(--transition-slow);
+}
+
+.mount-card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  block-size: 0.2rem;
+  background: var(--card-accent-border);
+  content: '';
 }
 
 .mount-card__image-frame {
@@ -16,9 +33,10 @@
   place-items: center;
   inline-size: 6rem;
   block-size: 6rem;
-  border: 1px solid var(--color-border-accent);
+  border: 1px solid transparent;
   border-radius: var(--radius-sm);
-  background: var(--color-bg-control);
+  background: var(--card-frame-background);
+  box-shadow: var(--card-frame-glow);
 }
 
 .mount-card__image {
@@ -40,8 +58,8 @@
 .mount-card__title {
   color: var(--color-text-primary);
   font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 400;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .mount-card__description {
@@ -52,8 +70,8 @@
 
 @media (hover: hover) and (pointer: fine) {
   .mount-card:hover {
-    border-color: var(--color-border-accent);
-    box-shadow: var(--shadow-card-hover);
+    border-color: var(--color-highlight);
+    box-shadow: var(--shadow-card-hover), var(--card-accent-glow);
     transform: translateY(calc(var(--space-1) * -1));
   }
 }

@@ -14,14 +14,36 @@
     linear-gradient(var(--color-overlay-page-start), var(--color-overlay-page-end)),
     url('../../../../assets/images/eorzean-epic-background.webp') center / cover no-repeat;
   content: '';
-  opacity: 0.4;
+  opacity: 0.56;
+  pointer-events: none;
+}
+
+.catalog::after {
+  position: fixed;
+  z-index: -1;
+  inset: auto 8% 8% auto;
+  inline-size: min(34vw, 32rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-ambient-glow), transparent 68%);
+  content: '';
+  filter: blur(1rem);
   pointer-events: none;
 }
 
 .catalog__masthead {
+  position: relative;
   border-block-end: var(--panel-border);
   background: var(--color-bg-masthead);
   backdrop-filter: blur(18px);
+}
+
+.catalog__masthead::after {
+  position: absolute;
+  inset: auto 0 0;
+  block-size: 0.15rem;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-highlight), var(--color-accent));
+  content: '';
 }
 
 .catalog__masthead-content {
@@ -92,6 +114,10 @@
   border-radius: var(--panel-radius);
   background: var(--panel-background);
   box-shadow: var(--panel-shadow);
+  background:
+    linear-gradient(var(--panel-background), var(--panel-background)) padding-box,
+    var(--panel-accent-border) border-box;
+  border-color: transparent;
 }
 
 .catalog__field {
@@ -166,7 +192,24 @@
 .catalog__grid {
   display: grid;
   grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
   gap: var(--space-4);
+}
+
+app-mount-card {
+  animation: catalog-card-enter var(--transition-slow) both;
+}
+
+app-mount-card:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+app-mount-card:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+app-mount-card:nth-child(4) {
+  animation-delay: 210ms;
 }
 
 .catalog__skeleton-grid {
@@ -188,6 +231,18 @@
 @keyframes catalog-shimmer {
   to {
     background-position: -100% 0;
+  }
+}
+
+@keyframes catalog-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-3));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -230,7 +285,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .catalog__skeleton {
+  .catalog__skeleton,
+  app-mount-card {
     animation: none;
   }
 }

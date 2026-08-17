@@ -14,4 +14,10 @@
   --card-radius: var(--radius-md);
   --card-padding: var(--space-6);
   --card-gap: var(--space-4);
+  --card-min-block-size: 15.5rem;
+  --card-accent-border: linear-gradient(135deg, var(--color-accent), var(--color-highlight));
+  --card-accent-glow: 0 0 2.5rem var(--color-card-glow);
+  --card-frame-background: linear-gradient(var(--color-bg-control), var(--color-bg-control)) padding-box, var(--card-accent-border) border-box;
+  --card-frame-glow: 0 0 1.5rem var(--color-crystal-glow);
+  --panel-accent-border: linear-gradient(135deg, var(--color-panel-border-start), var(--color-panel-border-end));
 }
