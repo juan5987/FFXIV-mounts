@@ -1,4 +1,4 @@
-export type ExpansionId = string;
+import type { ExpansionId } from './expansion-id';
 
 export interface Mount {
   readonly id: number;

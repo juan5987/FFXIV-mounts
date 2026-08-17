@@ -3,13 +3,17 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
-import { AppConfig, APP_CONFIG } from '@infrastructure/config/app-config';
+import { APP_CONFIG } from '@infrastructure/config/app-config';
+import type { AppEnvironment } from '@infrastructure/config/app-config';
 
 import { XivApiMountRepository } from './xivapi-mount.repository';
 
-const TEST_CONFIG: AppConfig = {
+const TEST_CONFIG: AppEnvironment = {
   production: false,
-  xivApiBaseUrl: 'https://xivapi.example.test',
+  xivApi: {
+    baseUrl: 'https://xivapi.example.test',
+    allowedImageOrigins: ['https://xivapi.example.test'],
+  },
 };
 
 describe('XivApiMountRepository', () => {

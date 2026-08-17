@@ -1,8 +1,11 @@
 import { InjectionToken } from '@angular/core';
 
-export interface AppConfig {
+export interface AppEnvironment {
   readonly production: boolean;
-  readonly xivApiBaseUrl: string;
+  readonly xivApi: {
+    readonly baseUrl: string;
+    readonly allowedImageOrigins: readonly string[];
+  };
 }
 
-export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
+export const APP_CONFIG = new InjectionToken<AppEnvironment>('APP_CONFIG');

@@ -1,4 +1,8 @@
-import { Mount } from '@domain/mounts/mount.model';
+import type { Mount } from '@domain/mounts/mount.model';
+import { parseExpansionId } from '@domain/mounts/expansion-id';
+import type { AppEnvironment } from '@infrastructure/config/app-config';
+
+import { resolveTrustedImageUrl } from './trusted-image-url';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -11,12 +15,12 @@ function readNonEmptyString(record: JsonRecord, key: string): string | null {
   return typeof value === 'string' && value.trim().length > 0 ? value : null;
 }
 
-function readExpansionId(record: JsonRecord): string | null {
+function readExpansionId(record: JsonRecord) {
   const gamePatch = record['GamePatch'];
-  return isRecord(gamePatch) ? readNonEmptyString(gamePatch, 'ExName') : null;
+  return isRecord(gamePatch) ? parseExpansionId(readNonEmptyString(gamePatch, 'ExName')) : null;
 }
 
-function mapMount(value: unknown, apiBaseUrl: string): Mount | null {
+function mapMount(value: unknown, environment: AppEnvironment): Mount | null {
   if (!isRecord(value)) {
     return null;
   }
@@ -30,25 +34,34 @@ function mapMount(value: unknown, apiBaseUrl: string): Mount | null {
     return null;
   }
 
-  try {
-    return {
-      id,
-      name,
-      description,
-      iconUrl: new URL(iconPath, apiBaseUrl).toString(),
-      expansionId: readExpansionId(value),
-    };
-  } catch {
+  const iconUrl = resolveTrustedImageUrl(
+    iconPath,
+    environment.xivApi.baseUrl,
+    environment.xivApi.allowedImageOrigins,
+  );
+
+  if (!iconUrl) {
     return null;
   }
+
+  return {
+    id,
+    name,
+    description,
+    iconUrl,
+    expansionId: readExpansionId(value),
+  };
 }
 
-export function mapXivApiMountsResponse(response: unknown, apiBaseUrl: string): readonly Mount[] {
+export function mapXivApiMountsResponse(
+  response: unknown,
+  environment: AppEnvironment,
+): readonly Mount[] {
   if (!isRecord(response) || !Array.isArray(response['Results'])) {
     throw new Error('The mount catalog response has an invalid shape.');
   }
 
   return response['Results']
-    .map((result) => mapMount(result, apiBaseUrl))
+    .map((result) => mapMount(result, environment))
     .filter((mount): mount is Mount => mount !== null);
 }

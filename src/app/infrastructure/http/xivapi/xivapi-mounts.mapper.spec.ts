@@ -2,9 +2,15 @@ import { describe, expect, it } from 'vitest';
 
 import { mapXivApiMountsResponse } from './xivapi-mounts.mapper';
 
-describe('mapXivApiMountsResponse', () => {
-  const apiBaseUrl = 'https://xivapi.com';
+const environment = {
+  production: false,
+  xivApi: {
+    baseUrl: 'https://xivapi.com',
+    allowedImageOrigins: ['https://xivapi.com'],
+  },
+};
 
+describe('mapXivApiMountsResponse', () => {
   it('normalizes valid API records and drops incomplete records', () => {
     const mounts = mapXivApiMountsResponse(
       {
@@ -24,7 +30,7 @@ describe('mapXivApiMountsResponse', () => {
           },
         ],
       },
-      apiBaseUrl,
+      environment,
     );
 
     expect(mounts).toEqual([
@@ -39,8 +45,26 @@ describe('mapXivApiMountsResponse', () => {
   });
 
   it('fails closed when the response envelope is invalid', () => {
-    expect(() => mapXivApiMountsResponse({ results: [] }, apiBaseUrl)).toThrow(
+    expect(() => mapXivApiMountsResponse({ results: [] }, environment)).toThrow(
       'The mount catalog response has an invalid shape.',
     );
+  });
+
+  it('drops records with an untrusted icon URL', () => {
+    const mounts = mapXivApiMountsResponse(
+      {
+        Results: [
+          {
+            ID: 1,
+            Name_fr: 'Chocobo destrier',
+            Description_fr: 'Une monture de compagnie.',
+            Icon: 'https://untrusted.example.test/mount.png',
+          },
+        ],
+      },
+      environment,
+    );
+
+    expect(mounts).toEqual([]);
   });
 });

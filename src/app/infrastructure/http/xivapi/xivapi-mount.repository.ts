@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom, map } from 'rxjs';
 
-import { Mount } from '@domain/mounts/mount.model';
+import type { Mount } from '@domain/mounts/mount.model';
 import { MountRepository } from '@domain/mounts/mount.repository';
 import { APP_CONFIG } from '@infrastructure/config/app-config';
 
@@ -29,8 +29,8 @@ export class XivApiMountRepository extends MountRepository {
 
     return firstValueFrom(
       this.http
-        .get<unknown>(`${this.config.xivApiBaseUrl}/mount`, { params })
-        .pipe(map((response) => mapXivApiMountsResponse(response, this.config.xivApiBaseUrl))),
+        .get<unknown>(`${this.config.xivApi.baseUrl}/mount`, { params })
+        .pipe(map((response) => mapXivApiMountsResponse(response, this.config))),
     );
   }
 }

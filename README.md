@@ -6,8 +6,8 @@ Catalogue français des montures de Final Fantasy XIV, publié sur GitHub Pages 
 ## Socle technique
 
 - Angular 21 standalone, zoneless et TypeScript strict
-- Façade applicative et Signals pour l'état du catalogue
-- Port métier `MountRepository` et adaptateur HTTP typé pour XIVAPI
+- Cas d'usage TypeScript pur, presenter Angular et view-model de présentation
+- Port métier `MountRepository`, adaptateur HTTP typé et URLs XIVAPI contrôlées
 - Sass, ESLint, Vitest et Playwright
 
 L'architecture et les règles de dépendance sont documentées dans

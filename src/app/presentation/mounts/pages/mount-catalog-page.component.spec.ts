@@ -2,59 +2,48 @@ import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it, vi } from 'vitest';
 
-import { MountCatalogFacade } from '@application/mounts/mount-catalog.facade';
-import { MountCatalogState } from '@application/mounts/models/mount-catalog-state.model';
-import { EXPANSION_OPTIONS } from '@domain/mounts/expansion-options';
-import { Mount } from '@domain/mounts/mount.model';
+import { EXPANSION_CATALOG } from '@domain/mounts/expansion.catalog';
 
+import { MountCatalogPresenter } from '../presenters/mount-catalog.presenter';
+import type { MountCatalogViewModel } from '../view-models/mount-catalog.view-model';
 import { MountCatalogPageComponent } from './mount-catalog-page.component';
 
-const MOUNTS: readonly Mount[] = [
-  {
-    id: 1,
-    name: 'Chocobo destrier',
-    description: 'Une monture de compagnie.',
-    iconUrl: 'https://example.test/chocobo.png',
-    expansionId: 'A Realm Reborn',
-  },
-  {
-    id: 2,
-    name: 'Faucon flamboyant',
-    description: 'Une monture ailée.',
-    iconUrl: 'https://example.test/faucon.png',
-    expansionId: 'Heavensward',
-  },
-];
+const VIEW_MODEL: MountCatalogViewModel = {
+  status: 'ready',
+  query: '',
+  selectedExpansionValue: '',
+  options: EXPANSION_CATALOG,
+  isEmpty: false,
+  items: [
+    {
+      id: 1,
+      title: 'Chocobo destrier',
+      description: 'Une monture de compagnie.',
+      imageSrc: 'https://example.test/chocobo.png',
+      imageAlt: 'Icone de la monture Chocobo destrier',
+    },
+    {
+      id: 2,
+      title: 'Faucon flamboyant',
+      description: 'Une monture ailee.',
+      imageSrc: 'https://example.test/faucon.png',
+      imageAlt: 'Icone de la monture Faucon flamboyant',
+    },
+  ],
+};
 
 describe('MountCatalogPageComponent', () => {
-  it('delegates page interactions to the facade', async () => {
-    const state: MountCatalogState = {
-      mounts: MOUNTS,
-      filter: {
-        query: '',
-        expansionId: null,
-      },
-      status: 'success',
-      error: null,
-    };
-    const facade = {
-      state: signal(state).asReadonly(),
-      filteredMounts: signal(MOUNTS).asReadonly(),
-      expansionOptions: EXPANSION_OPTIONS,
+  it('delegates page interactions to the presenter', async () => {
+    const presenter = {
+      viewModel: signal(VIEW_MODEL).asReadonly(),
       load: vi.fn<() => Promise<void>>(() => Promise.resolve()),
-      retry: vi.fn<() => Promise<void>>(() => Promise.resolve()),
-      setQuery: vi.fn<(query: string) => void>(),
-      setExpansion: vi.fn(),
+      setQuery: vi.fn<(value: string) => void>(),
+      setExpansion: vi.fn<(value: string) => void>(),
     };
 
     await TestBed.configureTestingModule({
       imports: [MountCatalogPageComponent],
-      providers: [
-        {
-          provide: MountCatalogFacade,
-          useValue: facade,
-        },
-      ],
+      providers: [{ provide: MountCatalogPresenter, useValue: presenter }],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(MountCatalogPageComponent);
@@ -68,14 +57,13 @@ describe('MountCatalogPageComponent', () => {
     component.onQueryChange('faucon');
     component.onExpansionChange('Heavensward');
     component.onExpansionChange('unknown');
-    component.onExpansionChange('all');
+    component.onExpansionChange('');
     component.onRetry();
 
-    expect(facade.load).toHaveBeenCalledOnce();
-    expect(facade.setQuery).toHaveBeenCalledWith('faucon');
-    expect(facade.setExpansion).toHaveBeenNthCalledWith(1, 'Heavensward');
-    expect(facade.setExpansion).toHaveBeenCalledTimes(2);
-    expect(facade.setExpansion).toHaveBeenNthCalledWith(2, null);
-    expect(facade.retry).toHaveBeenCalledOnce();
+    expect(presenter.load).toHaveBeenCalledTimes(2);
+    expect(presenter.setQuery).toHaveBeenCalledWith('faucon');
+    expect(presenter.setExpansion).toHaveBeenNthCalledWith(1, 'Heavensward');
+    expect(presenter.setExpansion).toHaveBeenNthCalledWith(2, 'unknown');
+    expect(presenter.setExpansion).toHaveBeenNthCalledWith(3, '');
   });
 });

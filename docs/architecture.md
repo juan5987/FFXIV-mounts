@@ -6,10 +6,10 @@ L'application est une SPA Angular standalone, zoneless et strictement typée.
 Ses couches sont explicites et leurs dépendances vont vers le domaine :
 
 ```text
-domain/mounts             modèles, règles pures et port `MountRepository`
-application/mounts        façade de cas d'usage et état du catalogue
-infrastructure/           configuration et adaptateur HTTP XIVAPI
-presentation/mounts       pages et composants Angular
+domain/mounts             modèles, invariants, règles pures et port `MountRepository`
+application/mounts        cas d'usage TypeScript purs
+infrastructure/           configuration, adaptateur HTTP et contrôle des URLs XIVAPI
+presentation/mounts       presenter Angular, view-models, pages et composants
 ```
 
 La présentation dépend de l'application et du domaine. L'application dépend
@@ -18,21 +18,22 @@ dépend jamais de la présentation ou de l'application. Seuls `app.config.ts` et
 `app.routes.ts` sont des composition roots autorisés à relier les couches.
 
 Un composant ne fait jamais d'appel HTTP, ne manipule jamais le DTO externe et
-ne contient aucune règle métier. `MountCatalogFacade` reçoit les intentions de
-l'UI et orchestre le chargement, le retry et les filtres.
+ne contient aucune règle métier. `MountCatalogPresenter` reçoit les intentions
+de l'UI, appelle le cas d'usage pur et expose un unique view-model de lecture.
 
 ## Configuration et sécurité
 
-Les fichiers d'environnement ne contiennent que l'origine publique de XIVAPI.
+Les fichiers d'environnement ne contiennent que la configuration publique de
+XIVAPI et l'allowlist exacte des origines d'images HTTPS autorisées.
 Ils ne sont pas un emplacement pour des secrets : tout secret doit rester côté
 serveur. Les fichiers `.env*` locaux sont ignorés par Git à l'exception d'un
 éventuel `.env.example` sans valeur sensible.
 
 ## État
 
-`MountCatalogFacade` conserve les données source et les filtres ; le résultat
-affiché est un `computed` dérivé, ce qui interdit l'état dupliqué et les
-désynchronisations. `filterMounts` reste une règle pure du domaine.
+`LoadMountCatalogUseCase` ne conserve aucun état et ne dépend pas d'Angular.
+`MountCatalogPresenter` détient uniquement l'état d'écran et projette un
+`MountCatalogViewModel` dérivé. `filterMounts` reste une règle pure du domaine.
 
 ## Qualité
 

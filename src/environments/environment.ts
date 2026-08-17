@@ -1,6 +1,9 @@
-import { AppConfig } from '@infrastructure/config/app-config';
+import type { AppEnvironment } from '@infrastructure/config/app-config';
 
-export const environment: AppConfig = {
+export const environment: AppEnvironment = {
   production: true,
-  xivApiBaseUrl: 'https://xivapi.com',
+  xivApi: {
+    baseUrl: 'https://xivapi.com',
+    allowedImageOrigins: ['https://xivapi.com'],
+  },
 };

@@ -19,7 +19,7 @@
           id="mount-search"
           type="search"
           placeholder="Nom de la monture"
-          [value]="state().filter.query"
+          [value]="viewModel().query"
           (input)="onQueryChange(queryInput.value)"
         >
       </div>
@@ -29,18 +29,18 @@
         <select
           #expansionSelect
           id="expansion-select"
-          [value]="state().filter.expansionId ?? 'all'"
+          [value]="viewModel().selectedExpansionValue"
           (change)="onExpansionChange(expansionSelect.value)"
         >
-          <option value="all">Toutes les extensions</option>
-          @for (option of expansionOptions; track option.value) {
-            <option [value]="option.value">{{ option.label }}</option>
+          <option value="">Toutes les extensions</option>
+          @for (option of viewModel().options; track option.id) {
+            <option [value]="option.id">{{ option.label }}</option>
           }
         </select>
       </div>
     </form>
 
-    @switch (state().status) {
+    @switch (viewModel().status) {
       @case ('loading') {
         <p class="catalog__status" role="status">Chargement des montures…</p>
       }
@@ -50,11 +50,11 @@
           <button type="button" (click)="onRetry()">Réessayer</button>
         </section>
       }
-      @case ('success') {
-        @if (mounts().length > 0) {
+      @case ('ready') {
+        @if (!viewModel().isEmpty) {
           <section class="catalog__grid" aria-label="Montures">
-            @for (mount of mounts(); track mount.id) {
-              <app-mount-card [mount]="mount" />
+            @for (mount of viewModel().items; track mount.id) {
+              <app-mount-card [item]="mount" />
             }
           </section>
         } @else {

@@ -28,7 +28,7 @@ module.exports = tseslint.config(
       'no-restricted-imports': [
         'error',
         {
-          patterns: ['@infrastructure/*', '@presentation/*'],
+          patterns: ['@angular/*', 'rxjs', '@infrastructure/*', '@presentation/*'],
         },
       ],
     },

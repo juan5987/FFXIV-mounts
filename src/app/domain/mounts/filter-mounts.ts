@@ -1,5 +1,5 @@
-import { MountFilter } from './mount-filter.model';
-import { Mount } from './mount.model';
+import type { MountFilter } from './mount-filter.model';
+import type { Mount } from './mount.model';
 
 export function filterMounts(
   mounts: readonly Mount[],

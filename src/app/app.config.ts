@@ -6,7 +6,7 @@ import {
 import { provideRouter, withHashLocation } from '@angular/router';
 
 import { APP_ROUTES } from './app.routes';
-import { MountCatalogFacade } from '@application/mounts/mount-catalog.facade';
+import { LoadMountCatalogUseCase } from '@application/mounts/load-mount-catalog.use-case';
 import { MountRepository } from '@domain/mounts/mount.repository';
 import { APP_CONFIG } from '@infrastructure/config/app-config';
 import { XivApiMountRepository } from '@infrastructure/http/xivapi/xivapi-mount.repository';
@@ -17,7 +17,6 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideHttpClient(withFetch()),
     provideRouter(APP_ROUTES, withHashLocation()),
-    MountCatalogFacade,
     XivApiMountRepository,
     {
       provide: APP_CONFIG,
@@ -26,6 +25,11 @@ export const appConfig: ApplicationConfig = {
     {
       provide: MountRepository,
       useExisting: XivApiMountRepository,
+    },
+    {
+      provide: LoadMountCatalogUseCase,
+      useFactory: (mountRepository: MountRepository) => new LoadMountCatalogUseCase(mountRepository),
+      deps: [MountRepository],
     },
   ],
 };

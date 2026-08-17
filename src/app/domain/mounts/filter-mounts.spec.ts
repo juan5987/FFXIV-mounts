@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { filterMounts } from './filter-mounts';
+import { ExpansionId } from './expansion-id';
 import { Mount } from './mount.model';
 
 const MOUNTS: readonly Mount[] = [
@@ -9,14 +10,14 @@ const MOUNTS: readonly Mount[] = [
     name: 'Chocobo destrier',
     description: 'Une monture de compagnie.',
     iconUrl: 'https://example.test/chocobo.png',
-    expansionId: 'A Realm Reborn',
+    expansionId: ExpansionId.ARealmReborn,
   },
   {
     id: 2,
     name: 'Faucon flamboyant',
     description: 'Une monture ailée.',
     iconUrl: 'https://example.test/faucon.png',
-    expansionId: 'Heavensward',
+    expansionId: ExpansionId.Heavensward,
   },
 ];
 
@@ -24,7 +25,7 @@ describe('filterMounts', () => {
   it('combines a case-insensitive name search and an expansion filter without mutating input', () => {
     const result = filterMounts(MOUNTS, {
       query: 'FAUCON',
-      expansionId: 'Heavensward',
+      expansionId: ExpansionId.Heavensward,
     });
 
     expect(result).toEqual([MOUNTS[1]]);

@@ -1,4 +1,4 @@
-import { ExpansionId } from './mount.model';
+import type { ExpansionId } from './expansion-id';
 
 export interface MountFilter {
   readonly query: string;

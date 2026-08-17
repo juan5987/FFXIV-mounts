@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { Mount } from '@domain/mounts/mount.model';
+import type { MountCardViewModel } from '../view-models/mount-catalog.view-model';
 
 @Component({
   selector: 'app-mount-card',
@@ -9,5 +9,5 @@ import { Mount } from '@domain/mounts/mount.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MountCardComponent {
-  readonly mount = input.required<Mount>();
+  readonly item = input.required<MountCardViewModel>();
 }
