@@ -33,3 +33,13 @@ test('loads, searches and filters the mount catalog without using the live API',
   await expect(page.getByRole('article')).toHaveCount(1);
   await expect(page.getByRole('article')).toContainText('Tigre de guerre');
 });
+
+for (const viewport of [375, 768, 1024, 1440]) {
+  test(`keeps the catalogue within the ${viewport}px viewport`, async ({ page }) => {
+    await page.setViewportSize({ width: viewport, height: 900 });
+    await page.goto('/#/');
+
+    await expect(page.getByRole('article').first()).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  });
+}

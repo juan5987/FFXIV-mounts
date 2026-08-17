@@ -1,5 +1,5 @@
 <div class="catalog">
-  <header class="catalog__header">
+  <header class="catalog__hero">
     <img
       class="catalog__logo"
       src="assets/images/logo.png"
@@ -7,11 +7,15 @@
       width="250"
       height="100"
     >
-    <h1 class="catalog__title">La référence pour collectionner vos montures sur Final Fantasy XIV</h1>
+    <div class="catalog__hero-copy">
+      <p class="catalog__eyebrow">ATLAS DES TERRES D’ÉORZÉA</p>
+      <h1 class="catalog__title">Le bestiaire des montures d’Éorzéa</h1>
+      <p class="catalog__intro">Explorez les compagnons qui jalonnent les terres, les cieux et les légendes de votre collection.</p>
+    </div>
   </header>
 
   <main class="catalog__main">
-    <form class="catalog__filters" (submit)="$event.preventDefault()">
+    <form class="catalog__filters" role="search" aria-label="Filtrer les montures" (submit)="$event.preventDefault()">
       <div class="catalog__field">
         <label for="mount-search">Recherche par nom</label>
         <input
@@ -42,23 +46,40 @@
 
     @switch (viewModel().status) {
       @case ('loading') {
-        <p class="catalog__status" role="status">Chargement des montures…</p>
+        <section class="catalog__status" role="status" aria-live="polite">
+          <p>Chargement des montures…</p>
+          <div class="catalog__skeleton-grid" aria-hidden="true">
+            @for (skeleton of [1, 2, 3, 4, 5, 6]; track skeleton) {
+              <div class="catalog__skeleton"></div>
+            }
+          </div>
+        </section>
       }
       @case ('error') {
         <section class="catalog__status" role="alert">
+          <h2>Le bestiaire reste hors de portée</h2>
           <p>Le catalogue est indisponible pour le moment.</p>
           <button type="button" (click)="onRetry()">Réessayer</button>
         </section>
       }
       @case ('ready') {
         @if (!viewModel().isEmpty) {
-          <section class="catalog__grid" aria-label="Montures">
-            @for (mount of viewModel().items; track mount.id) {
-              <app-mount-card [item]="mount" />
-            }
+          <section class="catalog__results" aria-labelledby="mount-results-heading">
+            <div class="catalog__results-heading">
+              <h2 id="mount-results-heading">Montures</h2>
+              <p aria-live="polite">{{ viewModel().items.length }} monture{{ viewModel().items.length > 1 ? 's' : '' }} affichée{{ viewModel().items.length > 1 ? 's' : '' }}</p>
+            </div>
+            <div class="catalog__grid">
+              @for (mount of viewModel().items; track mount.id) {
+                <app-mount-card [item]="mount" />
+              }
+            </div>
           </section>
         } @else {
-          <p class="catalog__status" role="status">Aucun résultat.</p>
+          <section class="catalog__status" role="status">
+            <h2>Aucune monture ne répond à ces critères</h2>
+            <p>Essayez un autre nom ou élargissez le filtre d’extension.</p>
+          </section>
         }
       }
       @default {

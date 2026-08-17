@@ -1,15 +1,24 @@
-@use '../../../../styles/vars' as vars;
-
 .mount-card {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 1rem;
+  gap: var(--card-gap);
   min-inline-size: 0;
-  padding: 1rem;
-  border: 2px solid vars.$color-dark;
-  border-radius: 0.75rem;
-  background: #ffffff;
-  box-shadow: 0 0.35rem 0 rgba(231, 111, 81, 0.18);
+  padding: var(--card-padding);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  background: var(--card-background);
+  box-shadow: var(--panel-shadow);
+  transition: border-color var(--transition-slow), box-shadow var(--transition-slow), transform var(--transition-slow);
+}
+
+.mount-card__image-frame {
+  display: grid;
+  place-items: center;
+  inline-size: 6rem;
+  block-size: 6rem;
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-control);
 }
 
 .mount-card__image {
@@ -24,25 +33,33 @@
 }
 
 .mount-card__title,
-.mount-card__description,
-.mount-card__expansion {
+.mount-card__description {
   margin: 0;
 }
 
 .mount-card__title {
-  color: vars.$color-dark;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
   font-size: 1.25rem;
+  font-weight: 400;
 }
 
 .mount-card__description {
-  margin-block-start: 0.5rem;
-  color: #2d2a28;
+  margin-block-start: var(--space-2);
+  color: var(--color-text-secondary);
   line-height: 1.45;
 }
 
-.mount-card__expansion {
-  margin-block-start: 0.75rem;
-  color: #5a4a42;
-  font-size: 0.875rem;
-  font-weight: 700;
+@media (hover: hover) and (pointer: fine) {
+  .mount-card:hover {
+    border-color: var(--color-border-accent);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(calc(var(--space-1) * -1));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mount-card {
+    transition: none;
+  }
 }

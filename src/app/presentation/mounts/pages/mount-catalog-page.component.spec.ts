@@ -52,6 +52,8 @@ describe('MountCatalogPageComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelectorAll('app-mount-card')).toHaveLength(2);
+    expect(fixture.nativeElement.querySelector('form[role="search"]')?.getAttribute('aria-label')).toBe('Filtrer les montures');
+    expect(fixture.nativeElement.querySelector('[aria-live="polite"]')?.textContent).toContain('2 montures affichées');
 
     const component = fixture.componentInstance;
     component.onQueryChange('faucon');
@@ -65,5 +67,37 @@ describe('MountCatalogPageComponent', () => {
     expect(presenter.setExpansion).toHaveBeenNthCalledWith(1, 'Heavensward');
     expect(presenter.setExpansion).toHaveBeenNthCalledWith(2, 'unknown');
     expect(presenter.setExpansion).toHaveBeenNthCalledWith(3, '');
+  });
+
+  it('renders loading, error and empty states with accessible feedback', async () => {
+    const viewModel = signal<MountCatalogViewModel>({ ...VIEW_MODEL, status: 'loading' });
+    const presenter = {
+      viewModel,
+      load: vi.fn<() => Promise<void>>(() => Promise.resolve()),
+      setQuery: vi.fn<(value: string) => void>(),
+      setExpansion: vi.fn<(value: string) => void>(),
+    };
+
+    await TestBed.configureTestingModule({
+      imports: [MountCatalogPageComponent],
+      providers: [{ provide: MountCatalogPresenter, useValue: presenter }],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(MountCatalogPageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelectorAll('.catalog__skeleton')).toHaveLength(6);
+
+    viewModel.set({ ...VIEW_MODEL, status: 'error' });
+    fixture.detectChanges();
+
+    const retry = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    expect(fixture.nativeElement.querySelector('[role="alert"]')).not.toBeNull();
+    retry.click();
+    expect(presenter.load).toHaveBeenCalledTimes(2);
+
+    viewModel.set({ ...VIEW_MODEL, isEmpty: true });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('[role="status"]')?.textContent).toContain('Aucune monture');
   });
 });

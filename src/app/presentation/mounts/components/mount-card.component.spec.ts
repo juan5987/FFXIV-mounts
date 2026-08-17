@@ -24,6 +24,8 @@ describe('MountCardComponent', () => {
 
     const image = fixture.nativeElement.querySelector('img') as HTMLImageElement;
 
+    expect(fixture.nativeElement.querySelector('article')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('h2')?.textContent).toContain(MOUNT.title);
     expect(fixture.nativeElement.textContent).toContain(MOUNT.title);
     expect(fixture.nativeElement.textContent).toContain(MOUNT.description);
     expect(image.alt).toBe(MOUNT.imageAlt);

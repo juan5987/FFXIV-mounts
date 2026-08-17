@@ -1,12 +1,14 @@
 <article class="mount-card">
-  <img
-    class="mount-card__image"
-    [src]="item().imageSrc"
-    [alt]="item().imageAlt"
-    width="96"
-    height="96"
-    loading="lazy"
-  >
+  <div class="mount-card__image-frame">
+    <img
+      class="mount-card__image"
+      [src]="item().imageSrc"
+      [alt]="item().imageAlt"
+      width="96"
+      height="96"
+      loading="lazy"
+    >
+  </div>
   <div class="mount-card__content">
     <h2 class="mount-card__title">{{ item().title }}</h2>
     <p class="mount-card__description">{{ item().description }}</p>
