@@ -1,9 +1,11 @@
+import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { MountCatalogFacade } from '@application/mounts/mount-catalog.facade';
+import { MountCatalogState } from '@application/mounts/models/mount-catalog-state.model';
+import { EXPANSION_OPTIONS } from '@domain/mounts/expansion-options';
 import { Mount } from '@domain/mounts/mount.model';
-import { MountRepository } from '@domain/mounts/mount.repository';
 
 import { MountCatalogPageComponent } from './mount-catalog-page.component';
 
@@ -25,14 +27,32 @@ const MOUNTS: readonly Mount[] = [
 ];
 
 describe('MountCatalogPageComponent', () => {
-  it('renders the facade state and delegates user search', async () => {
+  it('delegates page interactions to the facade', async () => {
+    const state: MountCatalogState = {
+      mounts: MOUNTS,
+      filter: {
+        query: '',
+        expansionId: null,
+      },
+      status: 'success',
+      error: null,
+    };
+    const facade = {
+      state: signal(state).asReadonly(),
+      filteredMounts: signal(MOUNTS).asReadonly(),
+      expansionOptions: EXPANSION_OPTIONS,
+      load: vi.fn<() => Promise<void>>(() => Promise.resolve()),
+      retry: vi.fn<() => Promise<void>>(() => Promise.resolve()),
+      setQuery: vi.fn<(query: string) => void>(),
+      setExpansion: vi.fn(),
+    };
+
     await TestBed.configureTestingModule({
       imports: [MountCatalogPageComponent],
       providers: [
-        MountCatalogFacade,
         {
-          provide: MountRepository,
-          useValue: { findAll: () => Promise.resolve(MOUNTS) },
+          provide: MountCatalogFacade,
+          useValue: facade,
         },
       ],
     }).compileComponents();
@@ -44,12 +64,18 @@ describe('MountCatalogPageComponent', () => {
 
     expect(fixture.nativeElement.querySelectorAll('app-mount-card')).toHaveLength(2);
 
-    const input = fixture.nativeElement.querySelector('#mount-search') as HTMLInputElement;
-    input.value = 'faucon';
-    input.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+    const component = fixture.componentInstance;
+    component.onQueryChange('faucon');
+    component.onExpansionChange('Heavensward');
+    component.onExpansionChange('unknown');
+    component.onExpansionChange('all');
+    component.onRetry();
 
-    expect(fixture.nativeElement.querySelectorAll('app-mount-card')).toHaveLength(1);
-    expect(fixture.nativeElement.textContent).toContain('Faucon flamboyant');
+    expect(facade.load).toHaveBeenCalledOnce();
+    expect(facade.setQuery).toHaveBeenCalledWith('faucon');
+    expect(facade.setExpansion).toHaveBeenNthCalledWith(1, 'Heavensward');
+    expect(facade.setExpansion).toHaveBeenCalledTimes(2);
+    expect(facade.setExpansion).toHaveBeenNthCalledWith(2, null);
+    expect(facade.retry).toHaveBeenCalledOnce();
   });
 });

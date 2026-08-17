@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 import { MountCatalogFacade } from '@application/mounts/mount-catalog.facade';
-import { ExpansionId } from '@domain/mounts/mount.model';
+import { isExpansionId } from '@domain/mounts/expansion-options';
 
 import { MountCardComponent } from '../components/mount-card.component';
 
@@ -13,13 +13,32 @@ import { MountCardComponent } from '../components/mount-card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MountCatalogPageComponent implements OnInit {
-  readonly facade = inject(MountCatalogFacade);
+  private readonly facade = inject(MountCatalogFacade);
+
+  readonly state = this.facade.state;
+  readonly mounts = this.facade.filteredMounts;
+  readonly expansionOptions = this.facade.expansionOptions;
 
   ngOnInit(): void {
     void this.facade.load();
   }
 
+  onQueryChange(query: string): void {
+    this.facade.setQuery(query);
+  }
+
   onExpansionChange(value: string): void {
-    this.facade.setExpansion(value === 'all' ? null : value as ExpansionId);
+    if (value === 'all') {
+      this.facade.setExpansion(null);
+      return;
+    }
+
+    if (isExpansionId(value)) {
+      this.facade.setExpansion(value);
+    }
+  }
+
+  onRetry(): void {
+    void this.facade.retry();
   }
 }

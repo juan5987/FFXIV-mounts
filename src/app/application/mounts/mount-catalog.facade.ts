@@ -1,37 +1,23 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 
-import { EXPANSION_OPTIONS, ExpansionOption } from '@domain/mounts/expansion-options';
+import { EXPANSION_OPTIONS } from '@domain/mounts/expansion-options';
 import { filterMounts } from '@domain/mounts/filter-mounts';
 import { MountFilter } from '@domain/mounts/mount-filter.model';
-import { ExpansionId, Mount } from '@domain/mounts/mount.model';
+import { ExpansionId } from '@domain/mounts/mount.model';
 import { MountRepository } from '@domain/mounts/mount.repository';
 
-export type MountCatalogStatus = 'idle' | 'loading' | 'success' | 'error';
-
-export interface MountCatalogState {
-  readonly mounts: readonly Mount[];
-  readonly filter: MountFilter;
-  readonly status: MountCatalogStatus;
-  readonly error: 'load-failed' | null;
-}
-
-const INITIAL_STATE: MountCatalogState = {
-  mounts: [],
-  filter: {
-    query: '',
-    expansionId: null,
-  },
-  status: 'idle',
-  error: null,
-};
+import {
+  createInitialMountCatalogState,
+  MountCatalogState,
+} from './models/mount-catalog-state.model';
 
 @Injectable()
 export class MountCatalogFacade {
   private readonly repository = inject(MountRepository);
-  private readonly stateSignal = signal<MountCatalogState>(INITIAL_STATE);
+  private readonly stateSignal = signal<MountCatalogState>(createInitialMountCatalogState());
 
   readonly state = this.stateSignal.asReadonly();
-  readonly expansionOptions = signal<readonly ExpansionOption[]>(EXPANSION_OPTIONS).asReadonly();
+  readonly expansionOptions = EXPANSION_OPTIONS;
   readonly filteredMounts = computed(() => {
     const { mounts, filter } = this.stateSignal();
     return filterMounts(mounts, filter);

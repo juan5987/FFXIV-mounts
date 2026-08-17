@@ -12,3 +12,7 @@ export const EXPANSION_OPTIONS: readonly ExpansionOption[] = [
   { value: 'Shadowbringers', label: 'Shadowbringers' },
   { value: 'Endwalker', label: 'Endwalker' },
 ];
+
+export function isExpansionId(value: string): value is ExpansionId {
+  return EXPANSION_OPTIONS.some((option) => option.value === value);
+}
