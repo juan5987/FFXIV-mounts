@@ -1,0 +1,17 @@
+:root {
+  --control-min-size: 44px;
+  --control-padding-inline: var(--space-3);
+  --control-border: 1px solid var(--color-border-subtle);
+  --control-radius: var(--radius-sm);
+  --control-background: var(--color-bg-control);
+  --control-text: var(--color-text-primary);
+  --panel-border: 1px solid var(--color-border-subtle);
+  --panel-background: var(--color-bg-surface);
+  --panel-radius: var(--radius-lg);
+  --panel-shadow: var(--shadow-raised);
+  --card-border: 1px solid var(--color-border-subtle);
+  --card-background: var(--color-bg-raised);
+  --card-radius: var(--radius-md);
+  --card-padding: var(--space-6);
+  --card-gap: var(--space-4);
+}

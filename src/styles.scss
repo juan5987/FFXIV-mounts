@@ -1,4 +1,4 @@
-@use './styles/vars' as vars;
+@use './styles/tokens';
 
 @font-face {
   font-family: 'Roboto';
@@ -8,8 +8,9 @@
 
 :root {
   color-scheme: dark;
-  font-family: 'Roboto', sans-serif;
-  background: vars.$color-extralight;
+  font-family: var(--font-body);
+  background: var(--color-bg-canvas);
+  color: var(--color-text-primary);
 }
 
 *,
@@ -26,6 +27,7 @@ body {
 
 body {
   min-block-size: 100dvh;
+  background: var(--color-bg-canvas);
 }
 
 button,
@@ -34,11 +36,29 @@ select {
   font: inherit;
 }
 
+::selection {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 button,
-select,
-input {
-  &:focus-visible {
-    outline: 3px solid #ffffff;
-    outline-offset: 3px;
+input,
+select {
+  min-block-size: var(--control-min-size);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

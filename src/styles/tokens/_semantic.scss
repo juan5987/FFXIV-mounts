@@ -1,0 +1,40 @@
+@use 'primitives' as primitive;
+
+:root {
+  --color-bg-canvas: #{primitive.$color-night-950};
+  --color-bg-surface: #{primitive.$color-night-800};
+  --color-bg-raised: #{primitive.$color-night-700};
+  --color-bg-control: #{primitive.$color-night-600};
+  --color-overlay-hero: rgb(5 8 20 / 72%);
+  --color-text-primary: #{primitive.$color-slate-100};
+  --color-text-secondary: #{primitive.$color-slate-300};
+  --color-text-muted: #{primitive.$color-slate-500};
+  --color-border-subtle: #{primitive.$color-slate-500};
+  --color-border-accent: #{primitive.$color-crystal-400};
+  --color-accent: #{primitive.$color-crystal-400};
+  --color-accent-strong: #{primitive.$color-crystal-200};
+  --color-highlight: #{primitive.$color-gold-400};
+  --color-highlight-soft: #{primitive.$color-gold-200};
+  --color-danger: #{primitive.$color-error-400};
+  --color-on-accent: #{primitive.$color-night-950};
+  --font-body: 'Roboto', system-ui, sans-serif;
+  --font-display: Georgia, Cambria, 'Times New Roman', serif;
+  --space-1: #{primitive.$space-1};
+  --space-2: #{primitive.$space-2};
+  --space-3: #{primitive.$space-3};
+  --space-4: #{primitive.$space-4};
+  --space-6: #{primitive.$space-6};
+  --space-8: #{primitive.$space-8};
+  --space-12: #{primitive.$space-12};
+  --space-16: #{primitive.$space-16};
+  --space-24: #{primitive.$space-24};
+  --radius-sm: #{primitive.$radius-sm};
+  --radius-md: #{primitive.$radius-md};
+  --radius-lg: #{primitive.$radius-lg};
+  --radius-pill: #{primitive.$radius-pill};
+  --shadow-raised: 0 1rem 3rem rgb(0 0 0 / 35%);
+  --shadow-card-hover: 0 1.5rem 3.5rem rgb(0 0 0 / 48%);
+  --focus-ring: 0 0 0 3px var(--color-accent-strong);
+  --transition-fast: 140ms cubic-bezier(.2, .8, .2, 1);
+  --transition-slow: 240ms cubic-bezier(.2, .8, .2, 1);
+}
