@@ -5,7 +5,10 @@
   --color-bg-surface: #{primitive.$color-night-800};
   --color-bg-raised: #{primitive.$color-night-700};
   --color-bg-control: #{primitive.$color-night-600};
+  --color-bg-masthead: rgb(8 13 27 / 82%);
   --color-overlay-hero: rgb(5 8 20 / 72%);
+  --color-overlay-page-start: rgb(5 8 20 / 92%);
+  --color-overlay-page-end: rgb(5 8 20 / 98%);
   --color-text-primary: #{primitive.$color-slate-100};
   --color-text-secondary: #{primitive.$color-slate-300};
   --color-text-muted: #{primitive.$color-slate-500};
@@ -17,8 +20,8 @@
   --color-highlight-soft: #{primitive.$color-gold-200};
   --color-danger: #{primitive.$color-error-400};
   --color-on-accent: #{primitive.$color-night-950};
-  --font-body: 'Roboto', system-ui, sans-serif;
-  --font-display: Georgia, Cambria, 'Times New Roman', serif;
+  --font-body: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
   --space-1: #{primitive.$space-1};
   --space-2: #{primitive.$space-2};
   --space-3: #{primitive.$space-3};

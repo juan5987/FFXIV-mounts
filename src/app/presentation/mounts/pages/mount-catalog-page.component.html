@@ -1,20 +1,22 @@
 <div class="catalog">
-  <header class="catalog__hero">
-    <img
-      class="catalog__logo"
-      src="assets/images/logo.png"
-      alt="Mount XIV"
-      width="250"
-      height="100"
-    >
-    <div class="catalog__hero-copy">
-      <p class="catalog__eyebrow">ATLAS DES TERRES D’ÉORZÉA</p>
-      <h1 class="catalog__title">Le bestiaire des montures d’Éorzéa</h1>
-      <p class="catalog__intro">Explorez les compagnons qui jalonnent les terres, les cieux et les légendes de votre collection.</p>
+  <header class="catalog__masthead">
+    <div class="catalog__masthead-content">
+      <img
+        class="catalog__logo"
+        src="assets/images/logo.png"
+        alt="Mount XIV"
+        width="250"
+        height="100"
+      >
+      <div class="catalog__masthead-copy">
+        <p class="catalog__eyebrow">COLLECTION FFXIV</p>
+        <h1 class="catalog__title">Catalogue des montures</h1>
+      </div>
     </div>
   </header>
 
   <main class="catalog__main">
+    <p class="catalog__intro">Retrouvez chaque monture, recherchez-la par nom et parcourez les extensions à votre rythme.</p>
     <form class="catalog__filters" role="search" aria-label="Filtrer les montures" (submit)="$event.preventDefault()">
       <div class="catalog__field">
         <label for="mount-search">Recherche par nom</label>

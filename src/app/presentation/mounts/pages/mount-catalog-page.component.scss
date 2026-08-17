@@ -1,45 +1,48 @@
 .catalog {
+  position: relative;
   min-block-size: 100dvh;
   background: var(--color-bg-canvas);
   color: var(--color-text-primary);
-}
-
-.catalog__hero {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: var(--space-6);
-  min-block-size: 19rem;
-  padding: var(--space-8) max(var(--space-6), calc((100% - 80rem) / 2));
-  overflow: hidden;
-  border-block-end: var(--panel-border);
   isolation: isolate;
 }
 
-.catalog__hero::before,
-.catalog__hero::after {
-  position: absolute;
+.catalog::before {
+  position: fixed;
   z-index: -1;
   inset: 0;
+  background:
+    linear-gradient(var(--color-overlay-page-start), var(--color-overlay-page-end)),
+    url('../../../../assets/images/eorzean-epic-background.webp') center / cover no-repeat;
   content: '';
+  opacity: 0.4;
+  pointer-events: none;
 }
 
-.catalog__hero::before {
-  background: url('../../../../assets/images/eorzean-epic-background.webp') center / cover no-repeat;
+.catalog__masthead {
+  border-block-end: var(--panel-border);
+  background: var(--color-bg-masthead);
+  backdrop-filter: blur(18px);
 }
 
-.catalog__hero::after {
-  background: linear-gradient(90deg, var(--color-bg-canvas), var(--color-overlay-hero));
+.catalog__masthead-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-inline-size: 80rem;
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-6);
 }
 
 .catalog__logo {
-  max-inline-size: min(15.625rem, 100%);
+  inline-size: 7rem;
+  max-inline-size: 30%;
   block-size: auto;
+  filter: brightness(0) invert(1);
 }
 
-.catalog__hero-copy {
-  max-inline-size: 48rem;
+.catalog__masthead-copy {
+  display: grid;
+  gap: var(--space-1);
 }
 
 .catalog__eyebrow,
@@ -50,23 +53,26 @@
 }
 
 .catalog__eyebrow {
-  color: var(--color-highlight-soft);
+  color: var(--color-accent-strong);
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
 }
 
 .catalog__title {
-  margin: var(--space-2) 0;
+  margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.75rem);
-  font-weight: 400;
-  line-height: 1.05;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 .catalog__intro {
-  max-inline-size: 40rem;
+  max-inline-size: 42rem;
+  margin: 0 0 var(--space-6);
   color: var(--color-text-secondary);
+  font-size: 1.05rem;
   line-height: 1.6;
 }
 
@@ -208,10 +214,13 @@
     grid-template-columns: 1fr;
   }
 
-  .catalog__hero {
-    grid-template-columns: 1fr;
-    justify-items: start;
-    min-block-size: 0;
+  .catalog__masthead-content {
+    align-items: flex-start;
+    padding: var(--space-4);
+  }
+
+  .catalog__logo {
+    inline-size: 5.5rem;
   }
 
   .catalog__results-heading {
