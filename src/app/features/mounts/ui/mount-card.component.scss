@@ -1,0 +1,48 @@
+@use '../../../../styles/vars' as vars;
+
+.mount-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  min-inline-size: 0;
+  padding: 1rem;
+  border: 2px solid vars.$color-dark;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 0.35rem 0 rgba(231, 111, 81, 0.18);
+}
+
+.mount-card__image {
+  inline-size: 6rem;
+  block-size: 6rem;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.mount-card__content {
+  min-inline-size: 0;
+}
+
+.mount-card__title,
+.mount-card__description,
+.mount-card__expansion {
+  margin: 0;
+}
+
+.mount-card__title {
+  color: vars.$color-dark;
+  font-size: 1.25rem;
+}
+
+.mount-card__description {
+  margin-block-start: 0.5rem;
+  color: #2d2a28;
+  line-height: 1.45;
+}
+
+.mount-card__expansion {
+  margin-block-start: 0.75rem;
+  color: #5a4a42;
+  font-size: 0.875rem;
+  font-weight: 700;
+}

@@ -1,0 +1,87 @@
+@use '../../../../styles/vars' as vars;
+
+.catalog {
+  min-block-size: 100dvh;
+  background: vars.$color-extralight;
+  color: #29201c;
+}
+
+.catalog__header {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: vars.$color-primary;
+  color: #ffffff;
+  text-align: center;
+}
+
+.catalog__logo {
+  max-inline-size: min(15.625rem, 100%);
+  block-size: auto;
+}
+
+.catalog__title {
+  max-inline-size: 42rem;
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.2;
+}
+
+.catalog__main {
+  max-inline-size: 75rem;
+  margin-inline: auto;
+  padding: 1.5rem;
+}
+
+.catalog__filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block-end: 2rem;
+}
+
+.catalog__field {
+  display: grid;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.catalog__field input,
+.catalog__field select,
+.catalog__status button {
+  min-block-size: 2.75rem;
+  padding-inline: 0.75rem;
+  border: 2px solid vars.$color-dark;
+  border-radius: 0.4rem;
+  background: #ffffff;
+  color: #29201c;
+}
+
+.catalog__status {
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.catalog__status button {
+  cursor: pointer;
+  background: vars.$color-primary;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 40rem) {
+  .catalog__filters {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog__main {
+    padding: 1rem;
+  }
+}

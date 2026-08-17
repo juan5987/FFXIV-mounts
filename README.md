@@ -1,12 +1,49 @@
-# FFXIV-mounts
-FFXIV-mounts est une application qui liste les montures disponibles dans le MMORPG Final Fantasy XIV. L'application utilise l'API disponible à l'adresse suivante: https://xivapi.com/. 
+# Mount XIV
 
-L'API récupère directement les données du jeu. Les données de l'application sont donc actualisées automatiquement lorsque l'API est mise à jour.
+Catalogue français des montures de Final Fantasy XIV, publié sur GitHub Pages :
+<https://juan5987.github.io/FFXIV-mounts/#/>.
 
-Le site est accessible sur github pages à l'adresse suivante: https://juan5987.github.io/FFXIV-mounts/
+## Socle technique
 
-## Stack technique
+- Angular 21 standalone, zoneless et TypeScript strict
+- Signals pour l'état local de la fonctionnalité
+- `HttpClient` et adaptateur typé pour XIVAPI
+- Sass, ESLint, Vitest et Playwright
 
-- React
-- Axios
-- SASS
+L'architecture et les règles de dépendance sont documentées dans
+[docs/architecture.md](docs/architecture.md). Le contrat préservé pendant la
+migration est disponible dans [docs/modernization-contract.md](docs/modernization-contract.md).
+
+## Démarrage
+
+Prérequis : Node.js 20.19+ (Node 20.20.2 est la version actuellement validée).
+
+```bash
+npm ci
+npm start
+```
+
+Ouvrir ensuite <http://localhost:4200/#/>.
+
+## Qualité
+
+```bash
+npm run lint
+npm run test
+npm run build
+npm run e2e:install
+npm run e2e
+```
+
+Les tests E2E interceptent XIVAPI avec une fixture locale et n'utilisent donc
+pas le réseau pour valider le catalogue.
+
+## Déploiement
+
+```bash
+npm run deploy
+```
+
+`predeploy` produit un build avec le `base-href` GitHub Pages. Aucun secret
+doit être mis dans l'application cliente : les fichiers `.env*` locaux sont
+ignorés par Git, à l'exception d'un éventuel `.env.example` sans valeur sensible.

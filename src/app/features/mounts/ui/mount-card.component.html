@@ -1,0 +1,17 @@
+<article class="mount-card">
+  <img
+    class="mount-card__image"
+    [src]="mount().iconUrl"
+    [alt]="'Icône de la monture ' + mount().name"
+    width="96"
+    height="96"
+    loading="lazy"
+  >
+  <div class="mount-card__content">
+    <h2 class="mount-card__title">{{ mount().name }}</h2>
+    <p class="mount-card__description">{{ mount().description }}</p>
+    @if (mount().expansionId; as expansionName) {
+      <p class="mount-card__expansion">{{ expansionName }}</p>
+    }
+  </div>
+</article>

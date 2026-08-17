@@ -1,0 +1,69 @@
+<div class="catalog">
+  <header class="catalog__header">
+    <img
+      class="catalog__logo"
+      src="assets/images/logo.png"
+      alt="Mount XIV"
+      width="250"
+      height="100"
+    >
+    <h1 class="catalog__title">La référence pour collectionner vos montures sur Final Fantasy XIV</h1>
+  </header>
+
+  <main class="catalog__main">
+    <form class="catalog__filters" (submit)="$event.preventDefault()">
+      <div class="catalog__field">
+        <label for="mount-search">Recherche par nom</label>
+        <input
+          #queryInput
+          id="mount-search"
+          type="search"
+          placeholder="Nom de la monture"
+          [value]="store.state().filter.query"
+          (input)="store.setQuery(queryInput.value)"
+        >
+      </div>
+
+      <div class="catalog__field">
+        <label for="expansion-select">Filtre par extension</label>
+        <select
+          #expansionSelect
+          id="expansion-select"
+          [value]="store.state().filter.expansionId ?? 'all'"
+          (change)="onExpansionChange(expansionSelect.value)"
+        >
+          <option value="all">Toutes les extensions</option>
+          @for (option of store.expansionOptions(); track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </form>
+
+    @switch (store.state().status) {
+      @case ('loading') {
+        <p class="catalog__status" role="status">Chargement des montures…</p>
+      }
+      @case ('error') {
+        <section class="catalog__status" role="alert">
+          <p>{{ store.state().errorMessage }}</p>
+          <button type="button" (click)="store.retry()">Réessayer</button>
+        </section>
+      }
+      @case ('success') {
+        @if (store.filteredMounts().length > 0) {
+          <section class="catalog__grid" aria-label="Montures">
+            @for (mount of store.filteredMounts(); track mount.id) {
+              <app-mount-card [mount]="mount" />
+            }
+          </section>
+        } @else {
+          <p class="catalog__status" role="status">Aucun résultat.</p>
+        }
+      }
+      @default {
+        <p class="catalog__status" role="status">Initialisation du catalogue…</p>
+      }
+    }
+  </main>
+</div>

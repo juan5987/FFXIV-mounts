@@ -13,7 +13,8 @@
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "lint": "ng lint",
-    "e2e": "playwright test",
+    "e2e:install": "cross-env PLAYWRIGHT_BROWSERS_PATH=0 playwright install chromium",
+    "e2e": "cross-env PLAYWRIGHT_BROWSERS_PATH=0 playwright test",
     "predeploy": "ng build --configuration production --base-href /FFXIV-mounts/",
     "deploy": "gh-pages -d dist/ffxiv-mounts/browser"
   },
@@ -37,10 +38,11 @@
     "@angular-eslint/eslint-plugin-template": "21.4.0",
     "@angular-eslint/template-parser": "21.4.0",
     "@types/node": "22.19.8",
+    "@playwright/test": "1.62.1",
+    "cross-env": "10.1.0",
     "eslint": "9.39.1",
     "gh-pages": "6.3.0",
     "jsdom": "26.1.0",
-    "playwright": "1.62.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.55.0",
     "vitest": "4.1.10"
